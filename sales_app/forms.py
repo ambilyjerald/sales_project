@@ -33,13 +33,13 @@ class mobileproduct_form(forms.ModelForm):
         exclude=('seller',)
 
 
-class DateInput(forms.DateInput):
+class dateinput(forms.DateInput):
     input_type = 'date'
 
 
-
 class payment_form(forms.ModelForm):
-    class Meta:
+     date=forms.DateField(widget=dateinput())
+     class Meta:
         model = Payment
         fields = ('__all__')
         exclude = ('cart',)

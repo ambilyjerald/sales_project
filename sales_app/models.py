@@ -48,6 +48,14 @@ class Cart(models.Model):
     status=models.IntegerField(default=0)
 
 
+
+class buy_now(models.Model):
+    cart=models.ForeignKey(Cart,on_delete = models.CASCADE,related_name='cart_buy')
+    phone=models.CharField(max_length = 10)
+    adress=models.TextField()
+    amount=models.CharField(max_length=100)
+
+
 class Payment(models.Model):
     cart=models.ForeignKey(Cart,on_delete = models.CASCADE,related_name='cart')
     phone=models.CharField(max_length = 10)
