@@ -1,0 +1,51 @@
+
+{% extends 'customer_dash/customerdashboard.html' %}
+{% load crispy_forms_tags %}
+
+{% block search %}
+
+<form method="GET" style="display:grid;grid-template-columns:1fr 1fr;">
+    <p style="margin-bottom:2%;">{{searched_form.form.brand}}</p>
+    <button class="btn btn-warning" type="submit" style="margin-bottom:2%;width:50%;margin-left:5px;" >Search </button>
+</form>
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<div style="display:grid;grid-template-columns:1fr;grid-gap:20px;">
+
+{% for i in data %}
+
+<div class="card" style="display:grid;grid-template-columns:1fr 1fr;width:550px;height:250px;background-color:#E6E6FA;">
+    <div style="position:relative;">
+      <img src="{{i.image.url}}" class="img-fluid rounded-start" alt="image not found" style="width:100%;height:100%;position:absolute;top:0;left:0;">
+    </div>
+      <div class="card-body">
+        <h5 class="card-title" style="color:green;">{{i.model_name}}</h5>
+        <p class="card-text text" style="color:brown;" >
+          name:{{i.name}}<br>
+          brand:{{i.brand}}<br>
+           description:{{i.description}}<br>
+            price:{{i.price}}<br>
+            <form method = 'post'>
+          {% csrf_token %}
+              <a href="{% url 'add_to_cart' i.id %}" type ='submit' class="btn btn-success">Add to Cart</a>
+
+
+           </form>
+          </p>
+
+
+      </div>
+</div>
+
+
+{% endfor %}
+</div>
+
+
+
+{% endblock %}

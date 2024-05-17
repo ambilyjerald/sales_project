@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'sales_app',
     "crispy_forms",
-    "crispy_bootstrap5"
+    "crispy_bootstrap5",
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -76,10 +77,21 @@ WSGI_APPLICATION = "sales_project.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "sales_app_db",
+        "USER": "postgres",
+        "PASSWORD": "1234",
+        # "HOST": "127.0.0.1",
+        "PORT": "5432",
     }
 }
 
@@ -129,4 +141,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = 'sales_app.Login_view'
 CRISPY_TEMPLATE_PACK="bootstrap5"
 CRISPY_ALLOWED_TEMPLATE_PACKS="bootstrap5"
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

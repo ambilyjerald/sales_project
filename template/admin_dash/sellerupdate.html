@@ -1,0 +1,11 @@
+{% extends 'admin_dash/admindashboard.html' %}
+{%load crispy_forms_tags %}
+
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+{{form|crispy}} <!-- jinja format-->
+<button>Submit</button>
+</form>
+{% endblock %}
