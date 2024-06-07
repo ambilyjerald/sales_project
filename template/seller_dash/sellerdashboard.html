@@ -40,11 +40,11 @@
      <div class="brand-logo">
       <a href=" {% static 'index.html' %} ">
        <img src=" {% static 'assets/images/logo-icon.png' %} " class="logo-icon" alt="logo icon">
-       <h5 class="logo-text">Dashtreme Admin</h5>
+       <h5 class="logo-text">Dashtreme Seller</h5>
      </a>
    </div>
    <ul class="sidebar-menu do-nicescrol">
-      <li class="sidebar-header">SELLER PAGE....</li>
+      <li class="sidebar-header">{{request.user.username}} PAGE....</li>
       <li>
         <a href=" {% static 'index.html' %} ">
           <i class="zmdi zmdi-view-dashboard"></i> <span>Dashboard</span>
@@ -77,8 +77,8 @@
       </li>
 
       <li>
-        <a href=" {% static 'profile.html' %} ">
-          <i class="zmdi zmdi-face"></i> <span>Profile</span>
+        <a href=" {% url 'view_paid_cart' %} ">
+          <i class="zmdi zmdi-face"></i> <span>Orders</span>
         </a>
       </li>
 
@@ -429,7 +429,7 @@
 <!--                 </tbody></table>-->
 <!--               </div>-->
            {% block content %}
-                <h2>My sales Page...</h2>
+                <h2>Welcome {{request.user.username}} </h2>
            {% endblock %}
 	   </div>
 

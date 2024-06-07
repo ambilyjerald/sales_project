@@ -43,8 +43,19 @@ urlpatterns = [
 
     path("add_to_cart/<int:id>/",customer_views.add_to_cart,name="add_to_cart"),
     path("view_cart/", customer_views.view_cart, name="view_cart"),
+    path("buy_now/<int:cart_id>/", customer_views.buy_now, name="buy_now"),
     path("delete_cart/<int:id>/", customer_views.delete_cart, name="delete_cart"),
-    path("payment/<int:id>/", customer_views.payment, name="payment")
+    path("payment/<int:buy_id>/", customer_views.payment, name="payment"),
+    path("view_view_paid_cart/", seller_views.view_paid_cart, name = "view_paid_cart"),
+
+    path("customer_feed_back/", customer_views.customer_feed_back, name="customer_feed_back"),
+    path("customer_view_feedbacks/", customer_views.customer_view_feedbacks, name="customer_view_feed_backs"),
+    path("admin_view_feedbacks/", admin_views.admin_view_feedbacks, name="admin_view_feed_backs"),
+    path("admin_view_orders", admin_views.admin_view_orders, name="admin_view_orders"),
+    path("admin_update_reply/<int:feedback_object_id>", admin_views.admin_update_reply, name="admin_update_reply"),
+    path("customer_delete_feedback/<int:feedback_object_id>/", customer_views.customer_delete_feedback, name="customer_delete_feedback"),
+    path("logout/", views.logout_view, name="logout_view")
+
 
 
 

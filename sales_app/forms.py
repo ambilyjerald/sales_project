@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 
-from sales_app.models import Login_view, Customer, Seller, mobile_product, Payment
+from sales_app.models import Login_view, Customer, Seller, mobile_product, Pay, Feedback
 
 
 class sales_login(UserCreationForm):
@@ -38,9 +38,13 @@ class dateinput(forms.DateInput):
 
 
 class payment_form(forms.ModelForm):
-     date=forms.DateField(widget=dateinput())
+     expiry_date=forms.DateField(widget=dateinput())
      class Meta:
-        model = Payment
+        model = Pay
         fields = ('__all__')
-        exclude = ('cart',)
+        exclude = ('buy',)
         # for single field in exclude comma(,) is needed
+class customer_feedback_form(forms.ModelForm):
+    class Meta:
+        model = Feedback
+        fields = ('subject','feedback')

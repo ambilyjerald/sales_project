@@ -21,7 +21,7 @@
 
              {% if i.status == 0 %}
 
-          <a href="{% url 'payment' i.id %}"><button class="btn btn-warning" >Pay Now</button></a>
+          <a href="{% url 'buy_now' i.id %}"><button class="btn btn-warning" >Buy Now</button></a>
 
             {% elif i.status == 1 %}
 

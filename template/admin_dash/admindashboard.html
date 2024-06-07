@@ -44,7 +44,7 @@
      </a>
    </div>
    <ul class="sidebar-menu do-nicescrol">
-      <li class="sidebar-header">ADMIN PAGE...</li>
+      <li class="sidebar-header">{{request.user.username}} PAGE...</li>
       <li>
         <a href=" {% static 'index.html' %} ">
           <i class="zmdi zmdi-view-dashboard"></i> <span>Dashboard</span>
@@ -89,10 +89,16 @@
       </li>
 
        <li>
-        <a href=" {% static 'register.html' %} " target="_blank">
-          <i class="zmdi zmdi-account-circle"></i> <span>Registration</span>
+        <a href=" {% url 'admin_view_feed_backs' %} " target="_blank">
+          <i class="zmdi zmdi-account-circle"></i> <span>View Feedbacks</span>
         </a>
       </li>
+
+<!--        <li>-->
+<!--        <a href=" {% url 'admin_update_reply' %} " target="_blank">-->
+<!--          <i class="zmdi zmdi-account-circle"></i> <span>Reply Feedback</span>-->
+<!--        </a>-->
+<!--      </li>-->
 
       <li class="sidebar-header">LABELS</li>
       <li><a href=" {% static 'javaScript:void();' %} "><i class="zmdi zmdi-coffee text-danger"></i> <span>Important</span></a></li>

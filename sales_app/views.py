@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 
 from sales_app.forms import sales_login, sales_customer, sales_seller
@@ -82,6 +82,25 @@ def sellerdash(request):
     return render(request, 'seller_dash/sellerdashboard.html')
 
 
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user_object = authenticate(request, username = username, password = password)
+        if user_object is not None:
+            login(request , user_object)
+            if user_object.is_staff:
+                return redirect("admin_dash")
+            elif user_object.is_customer:
+                return redirect("customer_dash")
+            elif user_object.is_seller:
+                return redirect("seller_dash")
+        else:
+            messages.info(request, 'Invalid Credentials')
+    return render(request, "login.html")
 
+def logout_view(request):
+    logout(request)
+    return redirect('login_view')
 
 

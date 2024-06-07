@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 
 from sales_app.forms import mobileproduct_form
-from sales_app.models import mobile_product, Seller
+from sales_app.models import mobile_product, Seller, Pay
+
 
 #
 # def create_product(request):
@@ -46,3 +47,7 @@ def product_update(request,id):
             data.save()
             return redirect('product_table')
     return render(request,"seller_dash/product_update.html",{"data":data})
+
+def view_paid_cart(request):
+    pay_objects = Pay.objects.filter(buy__cart__status = 1, buy__cart__product__seller__user = request.user )
+    return render(request,"seller_dash/view_payments.html",{'pay_objects':pay_objects})

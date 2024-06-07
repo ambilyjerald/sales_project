@@ -49,18 +49,24 @@ class Cart(models.Model):
 
 
 
-class buy_now(models.Model):
+class Buy_now(models.Model):
     cart=models.ForeignKey(Cart,on_delete = models.CASCADE,related_name='cart_buy')
-    phone=models.CharField(max_length = 10)
+    quantity=models.CharField(max_length = 100)
+    phone=models.CharField(max_length = 100)
     adress=models.TextField()
     amount=models.CharField(max_length=100)
 
 
-class Payment(models.Model):
-    cart=models.ForeignKey(Cart,on_delete = models.CASCADE,related_name='cart')
-    phone=models.CharField(max_length = 10)
-    adress=models.TextField()
-    card_number=models.CharField(max_length = 16)
-    cvv=models.CharField(max_length = 3)
-    expiry_date=models.CharField(max_length = 10)
+class Pay(models.Model):
+    buy=models.ForeignKey(Buy_now,on_delete = models.CASCADE,related_name='pay_buy')
+    card_number=models.CharField(max_length = 100)
+    cvv=models.CharField(max_length = 10)
+    expiry_date=models.CharField(max_length = 100)
+
+class Feedback(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name = "feedback_customer")
+    date = models.DateField(auto_now = True)
+    subject = models.CharField(max_length = 250)
+    feedback = models.TextField()
+    reply = models.TextField(blank = True, null = True)
 

@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 
 from sales_app.filters import product_filter_form
-from sales_app.forms import sales_customer, payment_form
-from sales_app.models import Customer, mobile_product, Cart
+from sales_app.forms import sales_customer, payment_form, customer_feedback_form
+from sales_app.models import Customer, mobile_product, Cart, Buy_now, Feedback
 
 
 def read_cus(request):
@@ -55,18 +55,60 @@ def delete_cart(request,id):
     cart_object.delete()
     return redirect("view_cart")
 
-def payment(request,id):
+
+def buy_now(request, cart_id):
+    if request.method == 'POST':
+        cart_object = Cart.objects.get(id = cart_id)
+        cart = cart_object
+        quantity = int(request.POST.get('quantity',0))
+        adress = request.POST.get('adress')
+        phone = request.POST.get('phone')
+        price = int(cart_object.product.price)
+        amount = quantity*price
+        buy_object = Buy_now(cart = cart,quantity = quantity,adress = adress,
+        phone = phone,amount = amount)
+        buy_object.save()
+        current_object_id = buy_object.id
+        return redirect("payment", buy_id = current_object_id)
+    return render(request, "customer_dash/buy_now.html")
+
+
+
+def payment(request, buy_id):
     data = payment_form()
+    buy_object = Buy_now.objects.get(id = buy_id)
+    print(buy_object)
     if request.method == 'POST':
         data = payment_form(request.POST)
         if data.is_valid():
-            payment_obj = data.save(commit=False)
-            customer_obj = Customer.objects.get(user=request.user)
-            cart_obj=Cart.objects.get(id=id)
-            payment_obj.cart = cart_obj
-            payment_obj.save()
-            cart_obj.status = 1
-            cart_obj.save()
+            pay_object = data.save(commit = False)
+            pay_object.buy=buy_object
+            pay_object.save()
+            cart_object = buy_object.cart
+            cart_object.status = 1
+            cart_object.save()
             return redirect('view_cart')
-    cart_object=Cart.objects.get(id=id)
-    return render(request,'customer_dash/payment.html',{'data':data,'cart':cart_object})
+    return render(request, 'customer_dash/payment.html', {'data':data, 'buy_object':buy_object})
+
+
+def customer_feed_back(request):
+    feedback_form_data = customer_feedback_form()
+    if request.method == 'POST':
+        feedback_form_data = customer_feedback_form(request.POST)
+        if feedback_form_data.is_valid():
+            feedback_object = feedback_form_data.save(commit = False)
+            feedback_object.customer = Customer.objects.get(user = request.user)
+
+            feedback_object.save()
+            return redirect('customerdash')
+    return render(request, "customer_dash/customer_feed_back.html",{'feedback_form_data':feedback_form_data })
+
+def customer_view_feedbacks(request):
+    feedback_objects = Feedback.objects.filter(customer__user = request.user)
+    customer_object = Customer.objects.get(user=request.user)
+    return render(request, "customer_dash/view_feedbacks.html",{'feedback_objects':feedback_objects})
+
+def customer_delete_feedback(request, feedback_object_id):
+    feedback_object = Feedback.objects.get(id = feedback_object_id)
+    feedback_object.delete()
+    return redirect('customer_view_feed_backs')
